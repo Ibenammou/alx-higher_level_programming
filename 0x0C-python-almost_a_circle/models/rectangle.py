@@ -21,6 +21,8 @@ class Rectangle(Base):
     @width.setter
     def width(self, value):
         """ Setter method for width """
+        self.validate_integer("width", value)
+        self.validate_positive("width", value)
         self.__width = value
 
     @property
@@ -31,6 +33,8 @@ class Rectangle(Base):
     @height.setter
     def height(self, value):
         """ Setter method for height """
+        self.validate_integer("height", value)
+        self.validate_positive("height", value)
         self.__height = value
 
     @property
@@ -41,6 +45,8 @@ class Rectangle(Base):
     @x.setter
     def x(self, value):
         """ Setter method for x """
+        self.validate_integer("x", value)
+        self.validate_non_negative("x", value)
         self.__x = value
 
     @property
@@ -51,16 +57,66 @@ class Rectangle(Base):
     @y.setter
     def y(self, value):
         """ Setter method for y """
+        self.validate_integer("y", value)
+        self.validate_non_negative("y", value)
         self.__y = value
+
+    def validate_integer(self, attribute, value):
+        """ Validate if the value is an integer """
+        if not isinstance(value, int):
+            raise TypeError("{} must be an integer".format(attribute))
+
+    def validate_positive(self, attribute, value):
+        """ Validate if the value is positive """
+        if value <= 0:
+            raise ValueError("{} must be > 0".format(attribute))
+
+    def validate_non_negative(self, attribute, value):
+        """ Validate if the value is non-negative """
+        if value < 0:
+            raise ValueError("{} must be >= 0".format(attribute))
+
+    def area(self):
+        """ Calculate and return the area of the rectangle """
+        return self.__width * self.__height
+
+    def display(self):
+        """ Display the Rectangle instance with the character #, taking care of x and y """
+        for i in range(self.__y):
+            print()
+        for i in range(self.__height):
+            print(" " * self.__x + "#" * self.__width)
+
+    def __str__(self):
+        """ Override __str__ method to represent Rectangle object as a string """
+        return "[Rectangle] ({}) {}/{} - {}/{}".format(
+            self.id, self.__x, self.__y, self.__width, self.__height
+        )
+
+    def update(self, *args, **kwargs):
+        """ Update attributes with keyworded arguments """
+        if args:
+            attributes = ["id", "width", "height", "x", "y"]
+            for i in range(len(args)):
+                setattr(self, attributes[i], args[i])
+        elif kwargs:
+            for key, value in kwargs.items():
+                setattr(self, key, value)
 
 if __name__ == "__main__":
     # Example usage
-    r1 = Rectangle(10, 2)
-    print(r1.id)
+    r1 = Rectangle(10, 10, 10, 10)
+    print(r1)
 
-    r2 = Rectangle(2, 10)
-    print(r2.id)
+    r1.update(height=1)
+    print(r1)
 
-    r3 = Rectangle(10, 2, 0, 0, 12)
-    print(r3.id)
+    r1.update(width=1, x=2)
+    print(r1)
+
+    r1.update(y=1, width=2, x=3, id=89)
+    print(r1)
+
+    r1.update(x=1, height=2, y=3, width=4)
+    print(r1)
 
