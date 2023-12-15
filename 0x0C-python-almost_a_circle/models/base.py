@@ -32,4 +32,25 @@ if __name__ == "__main__":
 
     b5 = Base()
     print(b5.id)
+# models/rectangle.py
+
+import json
+
+class Rectangle(Base):
+    """ Rectangle class, inherits from Base """
+
+    # ... (other methods)
+
+    @staticmethod
+    def save_to_file(list_objs):
+        """ Save list of objects to a file in JSON format """
+        filename = "Rectangle.json"
+        with open(filename, mode="w", encoding="utf-8") as file:
+            if list_objs is None:
+                file.write("[]")
+            else:
+                obj_list = [obj.to_dictionary() for obj in list_objs]
+                file.write(json.dumps(obj_list))
+
+# ... (rest of the code)
 
