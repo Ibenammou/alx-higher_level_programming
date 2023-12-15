@@ -119,4 +119,8 @@ if __name__ == "__main__":
 
     r1.update(x=1, height=2, y=3, width=4)
     print(r1)
+def to_dictionary(self):
+        """ Return dictionary representation of Rectangle """
+        return {"id": self.id, "width": self.width, "height": self.height, "x": self.x, "y": self.y}
 
+# ... (rest of the code)
