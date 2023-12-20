@@ -1,56 +1,53 @@
-#!/usr/bin/python3
-""" Base Module """
-class Base:
-    """ Base class for managing id attribute """
-
-    # Private class attribute
-    __nb_objects = 0
-
-    def __init__(self, id=None):
-        """ Constructor method """
-        if id is not None:
-            # If id is provided, assign it to the public instance attribute
-            self.id = id
-        else:
-            # Increment __nb_objects and assign the new value to the public instance attribute id
-            Base.__nb_objects += 1
-            self.id = Base.__nb_objects
-
-if __name__ == "__main__":
-    # Example usage
-    b1 = Base()
-    print(b1.id)
-
-    b2 = Base()
-    print(b2.id)
-
-    b3 = Base()
-    print(b3.id)
-
-    b4 = Base(12)
-    print(b4.id)
-
-    b5 = Base()
-    print(b5.id)
 # models/rectangle.py
 
-import json
+#!/usr/bin/python3
+"""
+Module for Rectangle class.
+"""
+
+from models.base import Base
 
 class Rectangle(Base):
-    """ Rectangle class, inherits from Base """
+    """
+    The Rectangle class.
+    """
 
-    # ... (other methods)
+    def __init__(self, width, height, x=0, y=0, id=None):
+        """
+        Initializes a new instance of Rectangle.
+
+        Args:
+            width (int): The width of the rectangle.
+            height (int): The height of the rectangle.
+            x (int): The x-coordinate of the rectangle.
+            y (int): The y-coordinate of the rectangle.
+            id (int): The identifier.
+
+        Returns:
+            None.
+        """
+        super().__init__(id)
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
 
     @staticmethod
     def save_to_file(list_objs):
-        """ Save list of objects to a file in JSON format """
-        filename = "Rectangle.json"
-        with open(filename, mode="w", encoding="utf-8") as file:
-            if list_objs is None:
-                file.write("[]")
-            else:
-                obj_list = [obj.to_dictionary() for obj in list_objs]
-                file.write(json.dumps(obj_list))
+        """
+        Writes the JSON string representation of a list of instances to a file.
 
-# ... (rest of the code)
+        Args:
+            list_objs (list): A list of instances.
+
+        Returns:
+            None.
+        """
+        filename = "{}.json".format(type(list_objs[0]).__name__)
+        json_list = []
+        if list_objs is not None:
+            for obj in list_objs:
+                json_list.append(obj.to_dictionary())
+        with open(filename, mode="w", encoding="utf-8") as file:
+            file.write(Base.to_json_string(json_list))
 
