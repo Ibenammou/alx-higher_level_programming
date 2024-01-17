@@ -1,5 +1,8 @@
--- script to list priviledges of MySQL users
+-- 0-privileges.sql
 
-SHOW GRANT FOR 'user_0d_1'@'localhost';
+-- Show privileges for user_0d_1
+SHOW GRANTS FOR 'user_0d_1'@'localhost';
 
-SHOW GRANT FOR 'user_0d_2'@'localhost';
+-- Show privileges for user_0d_2
+SHOW GRANTS FOR 'user_0d_2'@'localhost';
+
