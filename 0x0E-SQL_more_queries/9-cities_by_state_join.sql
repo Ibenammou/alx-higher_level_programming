@@ -1,8 +1,9 @@
--- 9-cities_by_state_join.sql
+-- 9-cities_by_state_subquery.sql
 
--- List all cities with their corresponding states
-SELECT cities.id, cities.name, states.name AS state_name
+-- List all cities with their corresponding states using subqueries
+SELECT
+  cities.id,
+  cities.name,
+  (SELECT states.name FROM states WHERE states.id = cities.state_id) AS state_name
 FROM cities
-JOIN states ON cities.state_id = states.id
 ORDER BY cities.id;
-
